@@ -2,7 +2,7 @@ import json
 import random
 import torch
 
-from attacks.definitions import Probe 
+from pipeline.utils.definitions import Probe 
 
 
 class MockTokenizerOutput:
