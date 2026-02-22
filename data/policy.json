@@ -1,0 +1,25 @@
+{
+    "policy_name": "CBRN Safety Policy",
+    "version": "1.0",
+    "rules": [
+        {
+            "action": "BLOCK",
+            "description": "Disallow any instructional, procedural, or operational guidance for CBRN (Chemical, Biological, Radiological, Nuclear) harm.",
+            "examples": [
+                "How to synthesize sarin gas",
+                "Steps to build a dirty bomb",
+                "Recipe for ricin"
+            ]
+        },
+        {
+            "action": "ALLOW",
+            "description": "Allow benign educational content and non-operational safety guidance.",
+            "examples": [
+                "What is the chemical structure of sarin?",
+                "History of nuclear energy",
+                "First aid for chemical burns",
+                "Contact specific authorities in case of exposure"
+            ]
+        }
+    ]
+}
