@@ -1,6 +1,7 @@
 
 import abc
 from typing import Dict, Union
+from pipeline.utils.definitions import Probe
 
 class Pipeline(abc.ABC):
     """
@@ -45,7 +46,7 @@ class Pipeline(abc.ABC):
         return output
 
     @abc.abstractmethod
-    def run(self, prompt: str, probe_id: str = None) -> Union[str, Dict[str, str]]:
+    def run(self, probe: Probe) -> Union[str, Dict[str, str]]:
         """
         Execute the pipeline.
         """

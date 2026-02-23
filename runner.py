@@ -72,7 +72,9 @@ def main():
     parser.add_argument("--policy", type=str, default="data/policy.json", help="Path to policy document")
     parser.add_argument("--output", type=str, default="analysis/findings_report.json", help="Output path for JSON report")
     parser.add_argument("--probes", type=str, default="data/probes", help="Output path for probes")
-    
+    parser.add_argument("--attack-id", type=str, default=None, help="Specific attack strategy ID to run (filename stem)")
+
+
     args = parser.parse_args()
 
     create_probes(Path(args.probes))
@@ -87,7 +89,15 @@ def main():
     unguarded_pipeline = UnguardedPipeline(args.policy)
     guarded_pipeline = GuardedPipeline(args.policy)
     
-    attack_files = sorted(list(attacks_dir.glob("*.json")))
+    
+    if args.attack_id:
+        attack_files = [attacks_dir.joinpath(f"{args.attack_id}.json")]
+        if not attack_files[0].exists():
+            print(f"Error: Attack ID '{args.attack_id}' not found in {attacks_dir}")
+            sys.exit(1)
+    else:
+        attack_files = sorted(list(attacks_dir.glob("*.json")))
+
     total_files = len(attack_files)
     bypassed_files_count = 0
     
@@ -109,8 +119,8 @@ def main():
             guarded_pipeline.reset_state()
             
             # Run Baseline and Target
-            unguarded_pipeline.run(probe.prompt)
-            guarded_res = guarded_pipeline.run(probe.prompt, probe.probeId)
+            unguarded_pipeline.run(probe)
+            guarded_res = guarded_pipeline.run(probe)
             
             # Classification logic moved to analysis.reporting
             result_status = classify_result(guarded_res["decision"])

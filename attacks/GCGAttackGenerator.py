@@ -43,6 +43,10 @@ class GCGAttackGenerator:
         suffix_len = suffix_ids.shape[0]
         
         mock_gradients = torch.randn((suffix_len, vocab_size))
+        # TODO: here te gradiet compute the LOSS
+        # L = alpha * L_target + beta * L_coherence
+        # L_target = log P(target_prefix | query + suffix)
+        # L_coherence = -log P(suffix | query)
         return mock_gradients
 
     def _mock_filter_by_coherence(self, candidate_tokens: torch.Tensor) -> torch.Tensor:

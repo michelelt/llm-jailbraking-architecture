@@ -1,4 +1,5 @@
 from typing import Dict, Union
+from pipeline.utils.definitions import Probe
 from pipeline.core import Pipeline
 from pipeline.sanitizer import Sanitizer
 
@@ -10,10 +11,10 @@ class UnguardedPipeline(Pipeline):
         super().__init__(policy_path, use_mock)
         self.sanitizer = Sanitizer()
 
-    def run(self, prompt: str, probe_id: str = None) -> str:
+    def run(self, probe: Probe) -> str:
         # Sanitize input before processing (Compliance requirement)
-        sanitized_prompt = self.sanitizer.sanitize(prompt)
-        return self._query_model(sanitized_prompt)
+        sanitized_probe = self.sanitizer.sanitize(probe)
+        return self._query_model(sanitized_probe.prompt)
 
 class GuardedPipeline(Pipeline):
     """
@@ -42,11 +43,11 @@ class GuardedPipeline(Pipeline):
             # return "BLOCK" if self.model.classify(inputs) == 0 else "ALLOW"
             return "BLOCK"
 
-    def run(self, prompt: str, probe_id: str) -> Dict[str, str]:
+    def run(self, probe: Probe) -> Dict[str, str]:
 
         # Sanitize
-        sanitized_prompt = self.sanitizer.sanitize(prompt)
-        decision = self._evaluate_guard(sanitized_prompt, probe_id)
+        sanitized_probe = self.sanitizer.sanitize(probe)
+        decision = self._evaluate_guard(sanitized_probe.prompt, sanitized_probe.probeId)
 
         
         if decision == "BLOCK":
@@ -55,8 +56,8 @@ class GuardedPipeline(Pipeline):
                 "output": "I cannot fulfill this request due to safety policies."
             }
         else:
-            output = self._query_model(sanitized_prompt)
-            guard_output_decision = self._evaluate_guard(output, probe_id)
+            output = self._query_model(sanitized_probe.prompt)
+            guard_output_decision = self._evaluate_guard(output, sanitized_probe.probeId)
 
             if guard_output_decision == "BLOCK":
                 answer = {
