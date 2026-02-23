@@ -14,7 +14,7 @@ Everything is done in the context of a mock LLM to avoid any actual harm and for
 
 1.  **Clone the repository**:
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/michelelt/llm-jailbraking-architecture
     cd llm-jailbraking-architecture
     ```
 
@@ -123,12 +123,9 @@ These attacks are selected after a brief literature review on the topic of LLM j
 ### S1) Direct Request Variants
 
 This strategy is inspired by the paper [Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043). The authors here presented a methodology to create a jailbreaking prompt that is computed via gradient loss. I tried to mock this approach; adding a new loss function is:
-* **Target Loss**:
-    $$L_{\text{target}} = \log P(\text{target\_prefix} \mid \text{query} + \text{suffix})$$
-* **Coherence Loss**:
-    $$L_{\text{coherence}} = -\log P(\text{suffix} \mid \text{query})$$
-* **Total Loss**:
-    $$L = \alpha L_{\text{target}} + \beta L_{\text{coherence}}$$
+* **Target Loss**: $L_{\text{target}} = \log P(\text{target\_prefix} \mid \text{query} + \text{suffix})$
+* **Coherence Loss**: $L_{\text{coherence}} = -\log P(\text{suffix} \mid \text{query})$
+* **Total Loss**: $L = \alpha L_{\text{target}} + \beta L_{\text{coherence}}$
 
 where $\alpha$ and $\beta$ are the weights of the target loss and coherence loss, respectively. Alpha and beta are hardcoded in the current implementation, but they can be easily changed to tune the attack.
 
