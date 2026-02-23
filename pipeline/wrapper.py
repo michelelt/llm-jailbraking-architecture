@@ -43,9 +43,7 @@ class GuardedPipeline(Pipeline):
             return "BLOCK"
 
     def run(self, prompt: str, probe_id: str) -> Dict[str, str]:
-        """
-        Esegue la pipeline protetta.
-        """
+
         # Sanitize
         sanitized_prompt = self.sanitizer.sanitize(prompt)
         decision = self._evaluate_guard(sanitized_prompt, probe_id)
