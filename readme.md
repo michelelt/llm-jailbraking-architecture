@@ -123,7 +123,7 @@ These attacks are selected after a brief literature review on the topic of LLM j
 ### S1) Direct Request Variants
 
 This strategy is inspired by the paper [Universal and Transferable Adversarial Attacks on Aligned Language Models](https://arxiv.org/abs/2307.15043). The authors here presented a methodology to create a jailbreaking prompt that is computed via gradient loss. I tried to mock this approach; adding a new loss function is:
-* **Target Loss**: $L{\text{target}} = \log P(\text{target\_prefix} \mid \text{query} + \text{suffix})$
+* **Target Loss**: $L_{\text{target}} = -\log P(\text{target-prefix} \mid \text{query} + \text{suffix})$
 * **Coherence Loss**: $L_{\text{coherence}} = -\log P(\text{suffix} \mid \text{query})$
 * **Total Loss**: $L = \alpha L_{\text{target}} + \beta L_{\text{coherence}}$
 
