@@ -20,6 +20,7 @@ from attacks.AdversarialPoetryGenerator import AdversarialPoetryGenerator
 from pipeline.utils.sanitizer import Sanitizer
 from pathlib import Path
 
+from datetime import datetime
 
 def load_probes_from_file(path: Path) -> List[Probe]:
     try:
@@ -73,6 +74,8 @@ def main():
     parser.add_argument("--output", type=str, default="analysis/findings_report.json", help="Output path for JSON report")
     parser.add_argument("--probes", type=str, default="data/probes", help="Output path for probes")
     parser.add_argument("--attack-id", type=str, default=None, help="Specific attack strategy ID to run (filename stem)")
+
+    run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
     args = parser.parse_args()
@@ -160,7 +163,8 @@ def main():
     report_data = generate_report(asr, total_files, bypassed_files_count, all_findings)
     
     # Output to File
-    with open(args.output, 'w') as f:
+    output_path =  args.output.replace('.json', '') + "_" + run_timestamp + ".json"
+    with open(output_path, 'w') as f:
         json.dump(report_data, f, indent=4)
 
     # Display Summary

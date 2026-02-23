@@ -1,9 +1,0 @@
-{
-    "metric": {
-        "name": "File-based Attack Success Rate (ASR)",
-        "value": 0.0,
-        "total_strategies": 0,
-        "bypassed_strategies": 0
-    },
-    "findings": []
-}
