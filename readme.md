@@ -40,37 +40,32 @@ Everything is done in the context of a mock LLM to avoid any actual harm and for
 
 ## Usage
 
-### Run All Attacks
+### Run Attacks
 
 To run all attack strategies against the default model:
 
 ```bash
-python runner.py
+python runner.py [--attack-id <attack-id>]
 ```
 
-### Run Specific Strategies
+### Set Policy Document Path
 
-To run only specific strategies, use the `--strategies` flag:
-
+To specify the path to the policy document, use the `--policy` flag:
 ```bash
-python runner.py --strategies S1_test_probes S2_test_probes
+python runner.py --policy data/policy.json
 ```
 
-### Custom Policy
-
-To use a custom safety policy, use the `--policy` flag:
-
+### Set Report Output Path
+To specify the output path for the JSON findings report, use the `--output` flag:
 ```bash
-python runner.py --policy data/custom_policy.json
+python runner.py --output analysis/findings_report.json
 ```
 
-### Run Specific Attack ID
-
-To run only a specific attack ID, use the `--attack-id` flag:
-
+### Set Probes Output Path
+To specify the output path for the JSON findings report, use the `--output` flag:
 ```bash
-python runner.py --attack-id S1_test_probes
-```
+python runner.py --output analysis/findings_report.json
+``` 
 
 ### Generate Report
 
